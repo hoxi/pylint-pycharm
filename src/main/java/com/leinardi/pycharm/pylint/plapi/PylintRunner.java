@@ -153,24 +153,7 @@ public class PylintRunner {
     }
 
     public static boolean checkPylintAvailable(Project project, boolean showNotifications) {
-        Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
-        if (projectSdk == null
-                || projectSdk.getHomeDirectory() == null
-                || !projectSdk.getHomeDirectory().exists()) {
-            if (showNotifications) {
-                Notifications.showNoPythonInterpreter(project);
-            }
-            return false;
-        } else if (showNotifications) {
-            PyPackageManager pyPackageManager = PyPackageManager.getInstance(projectSdk);
-            List<PyPackage> packages = pyPackageManager.getPackages();
-            if (packages != null) {
-                if (packages.stream().noneMatch(it -> PYLINT_PACKAGE_NAME.equals(it.getName()))) {
-                    Notifications.showInstallPylint(project);
-                    return false;
-                }
-            }
-        }
+
 
         PylintConfigService pylintConfigService = PylintConfigService.getInstance(project);
         if (pylintConfigService == null) {
